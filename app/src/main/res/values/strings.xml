@@ -4,6 +4,19 @@
     <string name="map">Map</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="field_cant_be_empty">Field can not be empty</string>
+    <string name="login_length_error">Length must be from 4 to 32 characters</string>
+    <string name="password_length_error">Length must be from 8 to 500 characters</string>
+    <string name="incorrect_login_format">Login must match pattern [a–z0–9_\-.@]+</string>
+    <string name="incorrect_input">Incorrect fields data</string>
+    <string name="incorrect_password_repeat">Incorrect password repeat</string>
+    <string name="login_error_response">Invalid login or password</string>
+    <string name="register_error_response">This login is already used</string>
 </resources>

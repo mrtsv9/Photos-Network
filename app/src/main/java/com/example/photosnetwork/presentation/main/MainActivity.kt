@@ -1,4 +1,4 @@
-package com.example.photosnetwork
+package com.example.photosnetwork.presentation.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.photosnetwork.R
 import com.example.photosnetwork.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
