@@ -20,4 +20,7 @@
     <string name="login_error_response">Invalid login or password</string>
     <string name="register_error_response">This login is already used</string>
     <string name="log_out">Log Out</string>
+    <string name="button_to_logout">Button to logout</string>
+    <string name="ask_logout">Do you want to Log Out?</string>
+    <string name="button_add_photo">Button Add Photo</string>
 </resources>

@@ -13,8 +13,6 @@ import com.example.photosnetwork.databinding.FragmentRegisterBinding
 import com.example.photosnetwork.domain.model.UserAuthInput
 import com.example.photosnetwork.presentation.base.BaseFragment
 import com.example.photosnetwork.presentation.main.MainActivity
-import com.example.photosnetwork.presentation.splash_screen.SplashActivity
-import com.example.photosnetwork.util.Constants
 import com.example.photosnetwork.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

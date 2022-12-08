@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.PhotosNetwork" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.PhotosNetwork" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,6 +12,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.CustomNavView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemIconTint">@color/shape_selector</item>
+        <item name="itemTextColor">@color/shape_selector</item>
     </style>
 
     <style name="Theme.SplashScreen" parent="Theme.MaterialComponents.NoActionBar">

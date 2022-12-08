@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -42,8 +43,12 @@ class MainActivity : AppCompatActivity() {
     private fun initNavigation() {
         toggle = ActionBarDrawerToggle(this, binding.drawer, R.string.open, R.string.close)
         binding.drawer.addDrawerListener(toggle)
+        setSupportActionBar(binding.toolbar)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.btnLogout.setOnClickListener {
+            showLogoutDialog()
+        }
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
@@ -57,6 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val user = dao.getUser()
+            if (user == null) logoutUser()
             withContext(Dispatchers.Main) {
                 userName.text = user?.login
             }
@@ -72,6 +78,19 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             dao.deleteUser()
             Intent(applicationContext, SplashActivity::class.java).apply { startActivity(this) }
+        }
+    }
+
+    private fun showLogoutDialog() {
+        this.let {
+            AlertDialog.Builder(it)
+                .setMessage(resources.getString(R.string.ask_logout))
+                .setPositiveButton(resources.getString(R.string.log_out)) { _, _ ->
+                    logoutUser()
+                }
+                .setNegativeButton(resources.getString(R.string.close)) { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
         }
     }
 }
