@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.photosnetwork.domain.model.UserAuthData
 import com.example.photosnetwork.domain.model.UserAuthInput
 import com.example.photosnetwork.domain.repository.RegisterRepository
+import com.example.photosnetwork.domain.use_case.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(private val repository: RegisterRepository): ViewModel() {
+class RegisterViewModel @Inject constructor(private val registerUseCase: RegisterUseCase): ViewModel() {
 
     private val _userAuthData = Channel<UserAuthData>()
     val userAuthData = _userAuthData.receiveAsFlow()
@@ -24,7 +25,7 @@ class RegisterViewModel @Inject constructor(private val repository: RegisterRepo
 
     fun registerUser(userAuthInput: UserAuthInput) {
         viewModelScope.launch {
-            val userAuthData = repository.registerUser(userAuthInput)
+            val userAuthData = registerUseCase(userAuthInput)
             if (userAuthData == null) _isErrorOccurred.emit(true)
             else _userAuthData.send(userAuthData)
         }

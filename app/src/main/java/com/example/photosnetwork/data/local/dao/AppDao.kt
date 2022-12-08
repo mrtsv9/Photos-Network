@@ -1,6 +1,7 @@
 package com.example.photosnetwork.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -13,7 +14,9 @@ interface AppDao {
     suspend fun insertUser(user: User)
 
     @Query("SELECT * from user where id = 1")
-    suspend fun getUser(): User
+    suspend fun getUser(): User?
 
+    @Query("delete from user where id = 1")
+    suspend fun deleteUser()
 
 }

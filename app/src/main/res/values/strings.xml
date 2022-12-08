@@ -19,4 +19,5 @@
     <string name="incorrect_password_repeat">Incorrect password repeat</string>
     <string name="login_error_response">Invalid login or password</string>
     <string name="register_error_response">This login is already used</string>
+    <string name="log_out">Log Out</string>
 </resources>
