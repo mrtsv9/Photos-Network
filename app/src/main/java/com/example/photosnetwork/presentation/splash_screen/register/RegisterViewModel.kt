@@ -2,10 +2,9 @@ package com.example.photosnetwork.presentation.splash_screen.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.photosnetwork.domain.model.UserAuthData
-import com.example.photosnetwork.domain.model.UserAuthInput
-import com.example.photosnetwork.domain.repository.RegisterRepository
-import com.example.photosnetwork.domain.use_case.RegisterUseCase
+import com.example.photosnetwork.domain.model.auth.UserAuthItem
+import com.example.photosnetwork.domain.model.auth.UserAuthInput
+import com.example.photosnetwork.domain.use_case.auth.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(private val registerUseCase: RegisterUseCase): ViewModel() {
 
-    private val _userAuthData = Channel<UserAuthData>()
-    val userAuthData = _userAuthData.receiveAsFlow()
+    private val _userAuthItem = Channel<UserAuthItem>()
+    val userAuthData = _userAuthItem.receiveAsFlow()
 
     private val _isErrorOccurred = MutableSharedFlow<Boolean>()
     val isErrorOccurred = _isErrorOccurred.asSharedFlow()
@@ -27,7 +26,7 @@ class RegisterViewModel @Inject constructor(private val registerUseCase: Registe
         viewModelScope.launch {
             val userAuthData = registerUseCase(userAuthInput)
             if (userAuthData == null) _isErrorOccurred.emit(true)
-            else _userAuthData.send(userAuthData)
+            else _userAuthItem.send(userAuthData)
         }
     }
 

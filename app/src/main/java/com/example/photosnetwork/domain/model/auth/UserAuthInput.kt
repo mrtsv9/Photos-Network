@@ -1,6 +1,6 @@
-package com.example.photosnetwork.domain.model
+package com.example.photosnetwork.domain.model.auth
 
-import com.example.photosnetwork.data.remote.dto.UserAuthInputDto
+import com.example.photosnetwork.data.remote.dto.auth.UserAuthInputDto
 
 data class UserAuthInput(
     val login: String,

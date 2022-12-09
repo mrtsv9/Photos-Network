@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/photosFragment"
-        android:name="com.example.photosnetwork.presentation.photos.PhotosFragment"
+        android:name="com.example.photosnetwork.presentation.main.image.ImageFragment"
         android:label="fragment_photos"
         tools:layout="@layout/fragment_photos" />
 
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.example.photosnetwork.presentation.map.MapFragment"
+        android:name="com.example.photosnetwork.presentation.main.map.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
 </navigation>

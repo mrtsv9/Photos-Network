@@ -9,10 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.photosnetwork.R
 import com.example.photosnetwork.databinding.FragmentLoginBinding
-import com.example.photosnetwork.domain.model.UserAuthInput
+import com.example.photosnetwork.domain.model.auth.UserAuthInput
 import com.example.photosnetwork.presentation.base.BaseFragment
 import com.example.photosnetwork.presentation.main.MainActivity
-import com.example.photosnetwork.presentation.splash_screen.SplashActivity
 import com.example.photosnetwork.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

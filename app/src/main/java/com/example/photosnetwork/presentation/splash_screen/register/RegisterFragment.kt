@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.photosnetwork.R
 import com.example.photosnetwork.databinding.FragmentRegisterBinding
-import com.example.photosnetwork.domain.model.UserAuthInput
+import com.example.photosnetwork.domain.model.auth.UserAuthInput
 import com.example.photosnetwork.presentation.base.BaseFragment
 import com.example.photosnetwork.presentation.main.MainActivity
 import com.example.photosnetwork.util.Constants.TAG
