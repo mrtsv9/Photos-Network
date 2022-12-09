@@ -8,7 +8,7 @@ import com.example.photosnetwork.domain.model.image.ImageItem
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-const val NETWORK_PAGE_SIZE = 5
+const val NETWORK_PAGE_SIZE = 20
 
 class ImageDataSource @Inject constructor(private val api: ImageApi) {
 

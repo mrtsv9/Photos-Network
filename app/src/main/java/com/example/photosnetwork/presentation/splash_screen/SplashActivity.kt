@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.example.photosnetwork.R
-import com.example.photosnetwork.data.local.dao.AppDao
+import com.example.photosnetwork.data.local.dao.auth.UserDao
 import com.example.photosnetwork.databinding.ActivitySplashBinding
 import com.example.photosnetwork.presentation.main.MainActivity
 import com.example.photosnetwork.presentation.splash_screen.adapter.ViewPagerAdapter
@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
     private val binding get() = _binding!!
 
     @Inject
-    lateinit var dao: AppDao
+    lateinit var dao: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -2,18 +2,23 @@ package com.example.photosnetwork.data.local
 
 import android.content.Context
 import androidx.room.*
-import com.example.photosnetwork.data.local.dao.AppDao
-import com.example.photosnetwork.data.local.entities.User
+import com.example.photosnetwork.data.local.dao.auth.UserDao
+import com.example.photosnetwork.data.local.dao.image.ImageDao
+import com.example.photosnetwork.data.local.entities.auth.UserEntity
+import com.example.photosnetwork.data.local.entities.image.ImageEntity
 
 @Database(
     entities = [
-        User::class
+        UserEntity::class,
+        ImageEntity::class
     ],
+    exportSchema = false,
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract val appDao: AppDao
+    abstract val userDao: UserDao
+    abstract val imageDao: ImageDao
 
     companion object {
         @Volatile

@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.photosnetwork.R
-import com.example.photosnetwork.data.local.dao.AppDao
+import com.example.photosnetwork.data.local.dao.auth.UserDao
 import com.example.photosnetwork.databinding.ActivityMainBinding
 import com.example.photosnetwork.presentation.splash_screen.SplashActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
 
     @Inject
-    lateinit var dao: AppDao
+    lateinit var dao: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

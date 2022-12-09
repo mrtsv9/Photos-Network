@@ -32,7 +32,7 @@ class ImageViewModel @Inject constructor(private val repository: ImageRepository
     }
 
     fun getPhotosPagingData(): Flow<PagingData<ImageItem>> {
-        return repository.getImagesPagingData()
+        return repository.getImagesPagingData().cachedIn(viewModelScope)
     }
 
     fun postImage(token: String, postImageDto: PostImageDto) {

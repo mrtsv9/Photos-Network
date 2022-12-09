@@ -1,9 +1,12 @@
 package com.example.photosnetwork.di
 
+import androidx.paging.ExperimentalPagingApi
+import com.example.photosnetwork.data.local.dao.image.ImageDao
 import com.example.photosnetwork.data.remote.api.ImageApi
 import com.example.photosnetwork.data.remote.api.LoginApi
 import com.example.photosnetwork.data.remote.api.RegisterApi
 import com.example.photosnetwork.data.remote.data_source.ImageDataSource
+import com.example.photosnetwork.data.remote.data_source.ImagesRemoteMediator
 import com.example.photosnetwork.data.remote.repository.auth.LoginRepositoryImpl
 import com.example.photosnetwork.data.remote.repository.auth.RegisterRepositoryImpl
 import com.example.photosnetwork.data.remote.repository.image.ImageRepositoryImpl
@@ -32,7 +35,12 @@ object AppModule {
     @Provides
     fun provideImageDataSource(api: ImageApi): ImageDataSource = ImageDataSource(api)
 
+    @OptIn(ExperimentalPagingApi::class)
     @Provides
-    fun provideImageRepository(api: ImageApi, dataSource: ImageDataSource): ImageRepository =
-        ImageRepositoryImpl(api, dataSource)
+    fun provideImageRepository(
+        api: ImageApi,
+        imageDao: ImageDao,
+        imagesRemoteMediator: ImagesRemoteMediator,
+    ): ImageRepository =
+        ImageRepositoryImpl(api, imageDao, imagesRemoteMediator)
 }
