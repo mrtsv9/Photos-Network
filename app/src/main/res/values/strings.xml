@@ -23,4 +23,8 @@
     <string name="button_to_logout">Button to logout</string>
     <string name="ask_logout">Do you want to Log Out?</string>
     <string name="button_add_photo">Button Add Photo</string>
+    <string name="image_loaded_from_api">Image loaded from api</string>
+    <string name="no_camera_permission">It looks like you have turned off permissions required for this feature. It can be enable under App settings</string>
+    <string name="go_to_settings">It looks like you have turned off permissions required for this feature. It can be enable under App settings</string>
+    <string name="cancel">Cancel</string>
 </resources>

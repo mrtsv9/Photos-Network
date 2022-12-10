@@ -6,7 +6,6 @@ import androidx.paging.*
 import com.example.photosnetwork.data.local.dao.image.ImageDao
 import com.example.photosnetwork.data.local.entities.image.toImageItem
 import com.example.photosnetwork.data.remote.api.ImageApi
-import com.example.photosnetwork.data.remote.data_source.ImageDataSource
 import com.example.photosnetwork.data.remote.data_source.ImagesRemoteMediator
 import com.example.photosnetwork.data.remote.dto.image.PostImageResponse
 import com.example.photosnetwork.data.remote.dto.image.PostImageDto

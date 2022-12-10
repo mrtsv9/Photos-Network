@@ -8,7 +8,7 @@ import com.example.photosnetwork.domain.model.image.ImageItem
 data class ImageEntity(
     @PrimaryKey val id: Int,
     val url: String,
-    val date: Int,
+    val date: Long,
     val lat: Double,
     val lng: Double,
 )

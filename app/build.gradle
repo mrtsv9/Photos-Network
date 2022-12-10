@@ -90,6 +90,12 @@ dependencies {
     implementation "androidx.room:room-paging:2.4.3"
     implementation "androidx.room:room-ktx:2.4.3"
 
+    // Camera
+    // User permission
+    implementation 'com.karumi:dexter:6.2.2'
+    // Coil
+    implementation "io.coil-kt:coil:1.4.0"
+
     // Maps
 //    implementation 'com.google.android.gms:play-services-maps:18.0.2'
 

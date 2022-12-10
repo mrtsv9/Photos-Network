@@ -16,7 +16,7 @@ data class ImagesResponse(
         @SerializedName("url")
         val url: String?,
         @SerializedName("date")
-        val date: Int?,
+        val date: Long?,
         @SerializedName("lat")
         val lat: Double?,
         @SerializedName("lng")

@@ -9,6 +9,7 @@ import com.example.photosnetwork.data.local.dao.image.ImageDao
 import com.example.photosnetwork.data.local.entities.image.ImageEntity
 import com.example.photosnetwork.data.remote.api.ImageApi
 import com.example.photosnetwork.data.remote.dto.image.toImageEntityList
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @ExperimentalPagingApi

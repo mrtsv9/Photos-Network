@@ -11,6 +11,8 @@ import com.example.photosnetwork.databinding.ItemImageBinding
 import com.example.photosnetwork.domain.model.image.ImageItem
 import kotlinx.coroutines.NonDisposableHandle
 import kotlinx.coroutines.NonDisposableHandle.parent
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PagingImagesAdapter :
     PagingDataAdapter<ImageItem, PagingImagesAdapter.PagingImagesViewHolder>(ImagesDiffUtilCallback()) {
@@ -27,13 +29,17 @@ class PagingImagesAdapter :
         }
     }
 
-
     class PagingImagesViewHolder(private val binding: ItemImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         private val ivItem = binding.ivItemImage
+        private val tvDate = binding.tvItemImageDate
 
         fun bind(item: ImageItem) {
             Glide.with(binding.root).load(item.url).into(ivItem)
+            val correctDate =
+                SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH).format(Date(item.date))
+            tvDate.text = correctDate
         }
     }
 

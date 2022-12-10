@@ -5,7 +5,6 @@ import com.example.photosnetwork.data.local.dao.image.ImageDao
 import com.example.photosnetwork.data.remote.api.ImageApi
 import com.example.photosnetwork.data.remote.api.LoginApi
 import com.example.photosnetwork.data.remote.api.RegisterApi
-import com.example.photosnetwork.data.remote.data_source.ImageDataSource
 import com.example.photosnetwork.data.remote.data_source.ImagesRemoteMediator
 import com.example.photosnetwork.data.remote.repository.auth.LoginRepositoryImpl
 import com.example.photosnetwork.data.remote.repository.auth.RegisterRepositoryImpl
@@ -28,12 +27,6 @@ object AppModule {
     @Provides
     fun provideRegisterRepository(api: RegisterApi): RegisterRepository =
         RegisterRepositoryImpl(api)
-
-//    @Provides
-//    fun
-
-    @Provides
-    fun provideImageDataSource(api: ImageApi): ImageDataSource = ImageDataSource(api)
 
     @OptIn(ExperimentalPagingApi::class)
     @Provides
