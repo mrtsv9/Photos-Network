@@ -3,6 +3,7 @@ package com.example.photosnetwork.di
 import com.example.photosnetwork.data.remote.RetrofitInstance
 import com.example.photosnetwork.data.remote.api.ImageApi
 import com.example.photosnetwork.data.remote.api.LoginApi
+import com.example.photosnetwork.data.remote.api.MainImageApi
 import com.example.photosnetwork.data.remote.api.RegisterApi
 import dagger.Module
 import dagger.Provides
@@ -23,9 +24,13 @@ object NetworkModule {
     fun provideLoginApi(retrofit: Retrofit): LoginApi = retrofit.create(LoginApi::class.java)
 
     @Provides
-    fun provideRegisterApi(retrofit: Retrofit): RegisterApi = retrofit.create(RegisterApi::class.java)
+    fun provideRegisterApi(retrofit: Retrofit): RegisterApi =
+        retrofit.create(RegisterApi::class.java)
 
     @Provides
     fun provideImageApi(retrofit: Retrofit): ImageApi = retrofit.create(ImageApi::class.java)
+
+    @Provides
+    fun provideMainApi(retrofit: Retrofit): MainImageApi = retrofit.create(MainImageApi::class.java)
 
 }

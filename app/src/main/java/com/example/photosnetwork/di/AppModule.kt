@@ -1,17 +1,21 @@
 package com.example.photosnetwork.di
 
 import androidx.paging.ExperimentalPagingApi
+import com.example.photosnetwork.data.local.dao.auth.UserDao
 import com.example.photosnetwork.data.local.dao.image.ImageDao
 import com.example.photosnetwork.data.remote.api.ImageApi
 import com.example.photosnetwork.data.remote.api.LoginApi
+import com.example.photosnetwork.data.remote.api.MainImageApi
 import com.example.photosnetwork.data.remote.api.RegisterApi
 import com.example.photosnetwork.data.remote.data_source.ImagesRemoteMediator
 import com.example.photosnetwork.data.remote.repository.auth.LoginRepositoryImpl
 import com.example.photosnetwork.data.remote.repository.auth.RegisterRepositoryImpl
 import com.example.photosnetwork.data.remote.repository.image.ImageRepositoryImpl
+import com.example.photosnetwork.data.remote.repository.main.MainRepositoryImpl
 import com.example.photosnetwork.domain.repository.auth.LoginRepository
 import com.example.photosnetwork.domain.repository.auth.RegisterRepository
 import com.example.photosnetwork.domain.repository.image.ImageRepository
+import com.example.photosnetwork.domain.repository.main.MainRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,4 +40,8 @@ object AppModule {
         imagesRemoteMediator: ImagesRemoteMediator,
     ): ImageRepository =
         ImageRepositoryImpl(api, imageDao, imagesRemoteMediator)
+
+    @Provides
+    fun provideMainRepository(api: MainImageApi, dao: UserDao): MainRepository =
+        MainRepositoryImpl(api, dao)
 }

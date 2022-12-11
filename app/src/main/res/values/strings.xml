@@ -3,6 +3,7 @@
     <string name="photos">Photos</string>
     <string name="map">Map</string>
     <string name="open">Open</string>
+    <string name="open_settings">Open</string>
     <string name="close">Close</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login">Login</string>
@@ -25,6 +26,8 @@
     <string name="button_add_photo">Button Add Photo</string>
     <string name="image_loaded_from_api">Image loaded from api</string>
     <string name="no_camera_permission">It looks like you have turned off permissions required for this feature. It can be enable under App settings</string>
-    <string name="go_to_settings">It looks like you have turned off permissions required for this feature. It can be enable under App settings</string>
+    <string name="no_required_permissions">It looks like you have turned off permissions required for this feature. It can be enable under App settings</string>
     <string name="cancel">Cancel</string>
+    <string name="request_post_image">Post Image?</string>
+    <string name="yes">Yes</string>
 </resources>

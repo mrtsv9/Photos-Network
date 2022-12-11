@@ -38,7 +38,10 @@ class PagingImagesAdapter :
         fun bind(item: ImageItem) {
             Glide.with(binding.root).load(item.url).into(ivItem)
             val correctDate =
-                SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH).format(Date(item.date))
+                SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH).format(Date(item.date!! * 1000))
+            if (item.lat == 40.0 && item.lng == 40.0)  {
+                val qwew = 5
+            }
             tvDate.text = correctDate
         }
     }
