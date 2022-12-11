@@ -1,24 +1,22 @@
 package com.example.photosnetwork.data.remote.repository.image
 
-import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.util.Log
 import androidx.paging.*
 import com.example.photosnetwork.data.local.dao.image.ImageDao
 import com.example.photosnetwork.data.local.entities.image.toImageItem
-import com.example.photosnetwork.data.remote.api.ImageApi
+import com.example.photosnetwork.data.remote.api.image.ImageApi
 import com.example.photosnetwork.data.remote.data_source.ImagesRemoteMediator
 import com.example.photosnetwork.data.remote.dto.image.PostImageResponse
 import com.example.photosnetwork.data.remote.dto.image.PostImageDto
 import com.example.photosnetwork.data.remote.dto.image.toImageItemList
 import com.example.photosnetwork.domain.model.image.ImageItem
 import com.example.photosnetwork.domain.repository.image.ImageRepository
+import com.example.photosnetwork.util.Constants.NETWORK_PAGE_SIZE
 import com.example.photosnetwork.util.Constants.TAG
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
-
-const val NETWORK_PAGE_SIZE = 20
 
 @ExperimentalPagingApi
 @Singleton

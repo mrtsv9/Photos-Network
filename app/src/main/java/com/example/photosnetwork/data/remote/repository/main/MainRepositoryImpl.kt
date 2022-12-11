@@ -1,10 +1,7 @@
 package com.example.photosnetwork.data.remote.repository.main
 
 import com.example.photosnetwork.data.local.dao.auth.UserDao
-import com.example.photosnetwork.data.remote.api.MainImageApi
-import com.example.photosnetwork.data.remote.dto.image.PostImageResponse
-import com.example.photosnetwork.data.remote.dto.image.toPostImageItem
-import com.example.photosnetwork.domain.model.image.ImageItem
+import com.example.photosnetwork.data.remote.api.main.MainImageApi
 import com.example.photosnetwork.domain.model.image.PostImageItem
 import com.example.photosnetwork.domain.model.image.toPostImageDto
 import com.example.photosnetwork.domain.repository.main.MainRepository

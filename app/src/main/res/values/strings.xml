@@ -31,4 +31,7 @@
     <string name="request_post_image">Post Image?</string>
     <string name="yes">Yes</string>
     <string name="photo_added">Photo successfully added</string>
+    <string name="photo_detail_image">Photo detail image</string>
+    <string name="enter_message">Enter message</string>
+    <string name="comment_inserted">Comment successfuly added</string>
 </resources>

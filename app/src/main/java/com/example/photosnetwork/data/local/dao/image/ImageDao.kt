@@ -11,7 +11,7 @@ import com.example.photosnetwork.data.local.entities.image.ImageEntity
 @Dao
 interface ImageDao {
 
-    @Query("select * from image")
+    @Query("select * from image ")
     fun getImagesPagingSource(): PagingSource<Int, ImageEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

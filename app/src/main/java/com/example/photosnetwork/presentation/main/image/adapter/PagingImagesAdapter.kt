@@ -1,7 +1,6 @@
 package com.example.photosnetwork.presentation.main.image.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -9,13 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.photosnetwork.databinding.ItemImageBinding
 import com.example.photosnetwork.domain.model.image.ImageItem
-import kotlinx.coroutines.NonDisposableHandle
-import kotlinx.coroutines.NonDisposableHandle.parent
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PagingImagesAdapter :
-    PagingDataAdapter<ImageItem, PagingImagesAdapter.PagingImagesViewHolder>(ImagesDiffUtilCallback()) {
+class PagingImagesAdapter(
+    private val clickListener: (ImageItem) -> Unit,
+) : PagingDataAdapter<ImageItem, PagingImagesAdapter.PagingImagesViewHolder>(ImagesDiffUtilCallback()) {
 
     class ImagesDiffUtilCallback : DiffUtil.ItemCallback<ImageItem>() {
         override fun areItemsTheSame(oldItem: ImageItem, newItem: ImageItem): Boolean {
@@ -29,7 +27,9 @@ class PagingImagesAdapter :
         }
     }
 
-    class PagingImagesViewHolder(private val binding: ItemImageBinding) :
+    inner class PagingImagesViewHolder(
+        private val binding: ItemImageBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         private val ivItem = binding.ivItemImage
@@ -39,10 +39,10 @@ class PagingImagesAdapter :
             Glide.with(binding.root).load(item.url).into(ivItem)
             val correctDate =
                 SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH).format(Date(item.date!! * 1000))
-            if (item.lat == 40.0 && item.lng == 40.0)  {
-                val qwew = 5
-            }
             tvDate.text = correctDate
+            binding.root.setOnClickListener {
+                clickListener(item)
+            }
         }
     }
 

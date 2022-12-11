@@ -1,6 +1,6 @@
 package com.example.photosnetwork.data.remote.repository.auth
 
-import com.example.photosnetwork.data.remote.api.RegisterApi
+import com.example.photosnetwork.data.remote.api.auth.RegisterApi
 import com.example.photosnetwork.data.remote.dto.auth.toUserAuthItem
 import com.example.photosnetwork.domain.model.auth.UserAuthItem
 import com.example.photosnetwork.domain.model.auth.UserAuthInput

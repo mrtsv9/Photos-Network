@@ -3,6 +3,7 @@ package com.example.photosnetwork.di
 import android.content.Context
 import com.example.photosnetwork.data.local.AppDatabase
 import com.example.photosnetwork.data.local.dao.auth.UserDao
+import com.example.photosnetwork.data.local.dao.comment.CommentDao
 import com.example.photosnetwork.data.local.dao.image.ImageDao
 import dagger.Module
 import dagger.Provides
@@ -27,5 +28,9 @@ object RoomModule {
     @Provides
     @Singleton
     fun provideImageDao(appDatabase: AppDatabase): ImageDao = appDatabase.imageDao
+
+    @Provides
+    @Singleton
+    fun provideCommentDao(appDatabase: AppDatabase): CommentDao = appDatabase.commentDao
 
 }

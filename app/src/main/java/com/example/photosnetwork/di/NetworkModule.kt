@@ -1,15 +1,17 @@
 package com.example.photosnetwork.di
 
 import com.example.photosnetwork.data.remote.RetrofitInstance
-import com.example.photosnetwork.data.remote.api.ImageApi
-import com.example.photosnetwork.data.remote.api.LoginApi
-import com.example.photosnetwork.data.remote.api.MainImageApi
-import com.example.photosnetwork.data.remote.api.RegisterApi
+import com.example.photosnetwork.data.remote.api.image.ImageApi
+import com.example.photosnetwork.data.remote.api.auth.LoginApi
+import com.example.photosnetwork.data.remote.api.main.MainImageApi
+import com.example.photosnetwork.data.remote.api.auth.RegisterApi
+import com.example.photosnetwork.data.remote.api.comment.CommentApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -32,5 +34,8 @@ object NetworkModule {
 
     @Provides
     fun provideMainApi(retrofit: Retrofit): MainImageApi = retrofit.create(MainImageApi::class.java)
+
+    @Provides
+    fun provideCommentApi(retrofit: Retrofit): CommentApi = retrofit.create(CommentApi::class.java)
 
 }

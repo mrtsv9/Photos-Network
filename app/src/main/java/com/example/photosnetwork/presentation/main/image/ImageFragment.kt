@@ -1,14 +1,18 @@
 package com.example.photosnetwork.presentation.main.image
 
 import android.app.Activity
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.photosnetwork.R
 import com.example.photosnetwork.databinding.FragmentPhotosBinding
+import com.example.photosnetwork.domain.model.image.ImageItem
 import com.example.photosnetwork.presentation.base.BaseFragment
 import com.example.photosnetwork.presentation.main.image.adapter.LoaderStateAdapter
 import com.example.photosnetwork.presentation.main.image.adapter.PagingImagesAdapter
@@ -30,12 +34,16 @@ class ImageFragment : BaseFragment<FragmentPhotosBinding>() {
         get() = FragmentPhotosBinding::inflate
 
     private val adapter by lazy {
-        PagingImagesAdapter()
+        PagingImagesAdapter { onItemClicked(it) }
+    }
+
+    private fun onItemClicked(item: ImageItem) {
+        val bundle = Bundle()
+        bundle.putSerializable("SELECTED_IMAGE", item)
+        findNavController().navigate(R.id.action_photosFragment_to_detailImageFragment, bundle)
     }
 
     override fun setup() {
-//        viewModel.postImage("n4cDD1ZhvH8ZyqdfFonUluT6r18fDKabufk4KzXs8GteK7WeIEtSy41Jx8eSP1w4",
-//            PostImageDto("", Date().time, 53.889987, 27.537930))
 
         binding.rvImages.adapter = adapter.withLoadStateFooter(LoaderStateAdapter())
         binding.rvImages.layoutManager = GridLayoutManager(requireContext(), 3)
@@ -46,14 +54,6 @@ class ImageFragment : BaseFragment<FragmentPhotosBinding>() {
             }
         }
 
-//        lifecycleScope.launch {
-//            viewModel.photos.collectLatest {
-//                Log.d(TAG, "setup: ${it.toString()}")
-//            }
-//        }
-//        viewModel.getAllPhotos("n4cDD1ZhvH8ZyqdfFonUluT6r18fDKabufk4KzXs8GteK7WeIEtSy41Jx8eSP1w4",
-//            0)
     }
-
 
 }

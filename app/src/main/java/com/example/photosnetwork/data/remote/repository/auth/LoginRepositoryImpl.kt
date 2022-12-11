@@ -1,7 +1,7 @@
 package com.example.photosnetwork.data.remote.repository.auth
 
 import android.util.Log
-import com.example.photosnetwork.data.remote.api.LoginApi
+import com.example.photosnetwork.data.remote.api.auth.LoginApi
 import com.example.photosnetwork.data.remote.dto.auth.toUserAuthItem
 import com.example.photosnetwork.domain.model.auth.UserAuthItem
 import com.example.photosnetwork.domain.model.auth.UserAuthInput

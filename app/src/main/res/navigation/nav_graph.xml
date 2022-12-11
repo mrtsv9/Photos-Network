@@ -9,11 +9,24 @@
         android:id="@+id/photosFragment"
         android:name="com.example.photosnetwork.presentation.main.image.ImageFragment"
         android:label="fragment_photos"
-        tools:layout="@layout/fragment_photos" />
+        tools:layout="@layout/fragment_photos" >
+        <action
+            android:id="@+id/action_photosFragment_to_detailImageFragment"
+            app:destination="@id/detailImageFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.photosnetwork.presentation.main.map.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/detailImageFragment"
+        android:name="com.example.photosnetwork.presentation.main.image.DetailImageFragment"
+        android:label="fragment_detail_image"
+        tools:layout="@layout/fragment_detail_image" >
+        <argument
+            android:name="image"
+            app:argType="com.example.photosnetwork.domain.model.image.ImageItem" />
+    </fragment>
 </navigation>

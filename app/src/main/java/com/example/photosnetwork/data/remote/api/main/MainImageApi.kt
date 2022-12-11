@@ -1,4 +1,4 @@
-package com.example.photosnetwork.data.remote.api
+package com.example.photosnetwork.data.remote.api.main
 
 import com.example.photosnetwork.data.remote.dto.image.PostImageDto
 import com.example.photosnetwork.data.remote.dto.image.PostImageResponse

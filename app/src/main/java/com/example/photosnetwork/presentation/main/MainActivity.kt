@@ -1,5 +1,6 @@
 package com.example.photosnetwork.presentation.main
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
@@ -12,6 +13,7 @@ import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -83,6 +85,14 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
         val navController: NavController = navHostFragment.navController
         binding.navView.setupWithNavController(navController)
+    }
+
+    fun hideFab() {
+        binding.fabAddPhoto.visibility = View.GONE
+    }
+
+    fun showFab() {
+        binding.fabAddPhoto.visibility = View.VISIBLE
     }
 
     private fun initObservers() {
@@ -179,6 +189,7 @@ class MainActivity : AppCompatActivity() {
             }.show()
     }
 
+    @SuppressLint("MissingPermission") // It is actually not missing, idk why this annotation is needed
     private fun getLocation() {
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(

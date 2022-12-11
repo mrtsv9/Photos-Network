@@ -6,7 +6,8 @@ import com.example.photosnetwork.domain.model.image.ImageItem
 
 @Entity(tableName = "image")
 data class ImageEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey
+    val id: Int,
     val url: String,
     val date: Long,
     val lat: Double,
