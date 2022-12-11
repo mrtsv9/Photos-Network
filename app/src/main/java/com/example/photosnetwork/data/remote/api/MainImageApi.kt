@@ -13,6 +13,6 @@ interface MainImageApi {
     suspend fun postImage(
         @Header("Access-Token") token: String,
         @Body postImageDto: PostImageDto,
-    ): Response<PostImageResponse>
+    ): Response<Unit>
 
 }

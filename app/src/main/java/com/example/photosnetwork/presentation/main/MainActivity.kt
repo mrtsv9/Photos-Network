@@ -1,16 +1,12 @@
 package com.example.photosnetwork.presentation.main
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Looper
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Base64
@@ -52,9 +48,8 @@ class MainActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     private lateinit var toggle: ActionBarDrawerToggle
 
-    val PERMISSION_ID = 42
-    lateinit var mFusedLocationClient: FusedLocationProviderClient
-    var currentLocation: Location? = null
+    private var currentLocation: Location? = null
+    lateinit var fusedLocationClient: FusedLocationProviderClient
 
     @Inject
     lateinit var dao: UserDao
@@ -66,9 +61,9 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-
+        getLocation()
         initNavigation()
         initObservers()
         cameraAction()
@@ -95,16 +90,28 @@ class MainActivity : AppCompatActivity() {
         val userName: TextView = headerView.findViewById(R.id.header_username)
 
         lifecycleScope.launch {
-            val user = dao.getUser()
-            if (user == null) logoutUser()
-            withContext(Dispatchers.Main) {
-                userName.text = user?.login
+            viewModel.user.collectLatest { user ->
+                if (user == null) logoutUser()
+                withContext(Dispatchers.Main) {
+                    userName.text = user?.login
+                }
             }
         }
+        viewModel.getUser()
 
         lifecycleScope.launch {
-            viewModel.photos.collectLatest {
-                Log.d(TAG, "initObservers: $it")
+            viewModel.photoResponseMessage.collectLatest {
+                withContext(Dispatchers.Main) {
+                    if (it.isFailure) {
+                        Toast.makeText(applicationContext,
+                            it.exceptionOrNull().toString(),
+                            Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(applicationContext,
+                            resources.getString(R.string.photo_added),
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
@@ -159,7 +166,6 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this).setMessage(R.string.request_post_image)
             .setPositiveButton(R.string.yes) { _, _ ->
                 val encodedImage = encodeImage(bitmap)
-//                getLastLocation()
                 val location = currentLocation
                 val postImageItem = encodedImage?.let {
                     PostImageItem(it,
@@ -173,96 +179,25 @@ class MainActivity : AppCompatActivity() {
             }.show()
     }
 
-//    @SuppressLint("MissingPermission")
-//    private fun getLastLocation() {
-//        if (checkPermissions()) {
-//            if (isLocationEnabled()) {
-//                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-//                    val location: Location? = task.result
-//                    if (location == null) {
-//                        requestNewLocationData()
-//                    } else {
-//                        currentLocation = location
-//                    }
-//                }
-//            } else {
-//                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
-//                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-//                startActivity(intent)
-//            }
-//        } else {
-//            requestPermissions()
-//        }
-//    }
-//
-//    @SuppressLint("MissingPermission")
-//    private fun requestNewLocationData() {
-//        val mLocationRequest = LocationRequest()
-//        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-//        mLocationRequest.interval = 0
-//        mLocationRequest.fastestInterval = 0
-//        mLocationRequest.numUpdates = 1
-//
-//        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-//        mFusedLocationClient.requestLocationUpdates(
-//            mLocationRequest, mLocationCallback,
-//            Looper.myLooper()
-//        )
-//    }
-//
-//    private val mLocationCallback = object : LocationCallback() {
-//        override fun onLocationResult(locationResult: LocationResult) {
-//            val lastLocation: Location? = locationResult.lastLocation
-//            if (lastLocation != null) {
-//                currentLocation = lastLocation
-//            }
-//        }
-//    }
-//
-//    private fun isLocationEnabled(): Boolean {
-//        val locationManager: LocationManager =
-//            getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-//            LocationManager.NETWORK_PROVIDER
-//        )
-//    }
-//
-//    private fun checkPermissions(): Boolean {
-//        if (ActivityCompat.checkSelfPermission(
-//                this,
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) == PackageManager.PERMISSION_GRANTED &&
-//            ActivityCompat.checkSelfPermission(
-//                this,
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) == PackageManager.PERMISSION_GRANTED
-//        ) {
-//            return true
-//        }
-//        return false
-//    }
-//
-//    private fun requestPermissions() {
-//        ActivityCompat.requestPermissions(
-//            this,
-//            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
-//                Manifest.permission.ACCESS_FINE_LOCATION),
-//            PERMISSION_ID
-//        )
-//    }
-//
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<String>,
-//        grantResults: IntArray,
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == PERMISSION_ID) {
-//            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-//                getLastLocation()
-//            }
-//        }
-//    }
+    private fun getLocation() {
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION),
+                100)
+            return
+        }
+        val location = fusedLocationClient.lastLocation
+        location.addOnSuccessListener {
+            if (it != null) {
+                currentLocation = it
+            }
+        }
+    }
 
     private fun encodeImage(bitmap: Bitmap): String? {
         val baos = ByteArrayOutputStream()

@@ -6,6 +6,6 @@ import com.example.photosnetwork.domain.model.image.PostImageItem
 
 interface MainRepository {
 
-    suspend fun postImage(postImageItem: PostImageItem): Result<ImageItem>
+    suspend fun postImage(postImageItem: PostImageItem): Result<Unit>
 
 }

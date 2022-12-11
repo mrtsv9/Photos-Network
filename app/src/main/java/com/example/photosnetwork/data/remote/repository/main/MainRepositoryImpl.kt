@@ -14,13 +14,13 @@ class MainRepositoryImpl @Inject constructor(
     private val api: MainImageApi,
     private val dao: UserDao,
 ) : MainRepository {
-    override suspend fun postImage(postImageItem: PostImageItem): Result<ImageItem> {
+    override suspend fun postImage(postImageItem: PostImageItem): Result<Unit> {
         val token = dao.getUser()?.token
         if (token != null) {
             val response = api.postImage(token, postImageItem.toPostImageDto())
             return when (response.code()) {
                 200 -> {
-                    Result.success(response.body()!!.toPostImageItem())
+                    Result.success(response.body()!!)
                 }
                 400 -> {
                     Result.failure(Throwable("Bad image"))
