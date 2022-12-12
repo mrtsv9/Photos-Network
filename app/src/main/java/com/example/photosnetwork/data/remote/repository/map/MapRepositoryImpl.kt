@@ -20,7 +20,6 @@ class MapRepositoryImpl @Inject constructor(private val api: ImageApi, val userD
             var counter = 0
             var response = api.getAllImages(token, counter)
             while (response.body()?.data!!.isNotEmpty()) {
-                Log.d(TAG, "getAllMarkers: $counter")
                 response = api.getAllImages(token, counter)
                 counter++
                 markerList.addAll(response.body()?.toMarkerList()!!)

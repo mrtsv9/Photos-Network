@@ -56,4 +56,14 @@ class CommentRepositoryImpl @OptIn(ExperimentalPagingApi::class) @Inject constru
         }
     }
 
+    override suspend fun deleteComment(imageId: Int, commentId: Int): Resource<Unit> {
+        val token = userDao.getUser()?.token
+        if (token != null) {
+            val response = api.deleteImage(token, imageId, commentId)
+            return if (response.isSuccessful) Resource.Success(Unit)
+            else Resource.Error("Internal server error")
+        }
+        return Resource.Error("No user found")
+    }
+
 }

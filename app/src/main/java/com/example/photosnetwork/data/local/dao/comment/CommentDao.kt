@@ -13,12 +13,12 @@ interface CommentDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(images: List<CommentEntity>)
 
-//    @Query("delete from image")
-//    suspend fun clear()
+    @Query("delete from comment where imageId > 0")
+    suspend fun clear()
 
     @Transaction
     suspend fun refresh(images: List<CommentEntity>) {
-//        clear()
+        clear()
         save(images)
     }
 

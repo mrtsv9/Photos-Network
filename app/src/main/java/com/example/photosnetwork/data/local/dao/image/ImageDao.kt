@@ -17,12 +17,12 @@ interface ImageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(images: List<ImageEntity>)
 
-//    @Query("delete from image")
-//    suspend fun clear()
+    @Query("delete from image where id > 0")
+    suspend fun clear()
 
     @Transaction
     suspend fun refresh(images: List<ImageEntity>) {
-//        clear()
+        clear()
         save(images)
     }
 }

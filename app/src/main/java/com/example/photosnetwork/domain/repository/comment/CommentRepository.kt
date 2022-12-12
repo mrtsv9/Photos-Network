@@ -13,4 +13,6 @@ interface CommentRepository {
 
     fun getCommentsPagingData(imageId: String): Flow<PagingData<CommentItem>>
 
+    suspend fun deleteComment(imageId: Int, commentId: Int): Resource<Unit>
+
 }

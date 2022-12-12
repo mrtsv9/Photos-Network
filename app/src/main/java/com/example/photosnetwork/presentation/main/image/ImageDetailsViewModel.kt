@@ -23,7 +23,8 @@ class ImageDetailsViewModel @Inject constructor(private val repository: CommentR
     private var _postComment = Channel<Resource<CommentItem>>()
     val postComment = _postComment.receiveAsFlow()
 
-
+    private var _deleteComment = Channel<Resource<Unit>>()
+    val deleteComment = _deleteComment.receiveAsFlow()
 
     fun postComment(postCommentItem: PostCommentItem, imageId: String) {
         viewModelScope.launch {
@@ -34,6 +35,12 @@ class ImageDetailsViewModel @Inject constructor(private val repository: CommentR
 
     fun getPhotosPagingData(imageId: String): Flow<PagingData<CommentItem>> {
         return repository.getCommentsPagingData(imageId).cachedIn(viewModelScope)
+    }
+
+    fun deleteComment(imageId: Int, commentId: Int) {
+        viewModelScope.launch {
+            _deleteComment.send(repository.deleteComment(imageId, commentId))
+        }
     }
 
 }

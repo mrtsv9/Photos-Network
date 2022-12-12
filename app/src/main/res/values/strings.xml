@@ -33,6 +33,9 @@
     <string name="photo_added">Photo successfully added</string>
     <string name="photo_detail_image">Photo detail image</string>
     <string name="enter_message">Enter message</string>
-    <string name="comment_inserted">Comment successfuly added</string>
+    <string name="comment_inserted">Comment successfully added</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="photo_deleted">Photo was successfully deleted</string>
+    <string name="delete_image_question">Delete image?</string>
+    <string name="comment_deleted">Comment successfully deleted</string>
 </resources>

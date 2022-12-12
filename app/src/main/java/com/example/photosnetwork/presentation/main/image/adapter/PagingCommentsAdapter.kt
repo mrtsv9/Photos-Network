@@ -13,7 +13,9 @@ import com.example.photosnetwork.domain.model.image.ImageItem
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PagingCommentsAdapter() :
+class PagingCommentsAdapter(
+    private val longClickListener: (CommentItem) -> Unit
+) :
     PagingDataAdapter<CommentItem, PagingCommentsAdapter.PagingCommentsViewHolder>(
         ImagesDiffUtilCallback()) {
 
@@ -28,7 +30,7 @@ class PagingCommentsAdapter() :
     }
 
     inner class PagingCommentsViewHolder(
-        binding: ItemCommentBinding,
+        private val binding: ItemCommentBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val tvText = binding.tvCommentText
@@ -39,6 +41,10 @@ class PagingCommentsAdapter() :
             val correctDate =
                 SimpleDateFormat("dd.MM.yyyy mm:ss", Locale.ENGLISH).format(Date(item.date * 1000))
             tvDate.text = correctDate
+            binding.root.setOnLongClickListener {
+                longClickListener(item)
+                true
+            }
         }
     }
 

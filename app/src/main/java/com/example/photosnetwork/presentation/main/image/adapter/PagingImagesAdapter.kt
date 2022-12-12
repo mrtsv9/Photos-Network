@@ -13,6 +13,7 @@ import java.util.*
 
 class PagingImagesAdapter(
     private val clickListener: (ImageItem) -> Unit,
+    private val longClickListener: (ImageItem, Int) -> Unit
 ) : PagingDataAdapter<ImageItem, PagingImagesAdapter.PagingImagesViewHolder>(ImagesDiffUtilCallback()) {
 
     class ImagesDiffUtilCallback : DiffUtil.ItemCallback<ImageItem>() {
@@ -35,7 +36,7 @@ class PagingImagesAdapter(
         private val ivItem = binding.ivItemImage
         private val tvDate = binding.tvItemImageDate
 
-        fun bind(item: ImageItem) {
+        fun bind(item: ImageItem, position: Int) {
             Glide.with(binding.root).load(item.url).into(ivItem)
             val correctDate =
                 SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH).format(Date(item.date!! * 1000))
@@ -43,11 +44,15 @@ class PagingImagesAdapter(
             binding.root.setOnClickListener {
                 clickListener(item)
             }
+            binding.root.setOnLongClickListener {
+                longClickListener(item, position)
+                true
+            }
         }
     }
 
     override fun onBindViewHolder(holder: PagingImagesViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+        getItem(position)?.let { holder.bind(it, position) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingImagesViewHolder {

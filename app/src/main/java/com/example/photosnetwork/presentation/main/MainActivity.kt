@@ -53,9 +53,6 @@ class MainActivity : AppCompatActivity() {
     private var currentLocation: Location? = null
     lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    @Inject
-    lateinit var dao: UserDao
-
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -189,7 +186,7 @@ class MainActivity : AppCompatActivity() {
             }.show()
     }
 
-    @SuppressLint("MissingPermission") // It is actually not missing, idk why this annotation is needed
+    @SuppressLint("MissingPermission") // It is actually not missing
     private fun getLocation() {
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
@@ -224,7 +221,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun logoutUser() {
         lifecycleScope.launch {
-            dao.deleteUser()
+            viewModel.deleteUser()
             Intent(applicationContext, SplashActivity::class.java).apply { startActivity(this) }
         }
     }

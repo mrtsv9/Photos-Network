@@ -1,6 +1,7 @@
 package com.example.photosnetwork.presentation.main.image
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -48,7 +49,9 @@ class DetailImageFragment : BaseFragment<FragmentDetailImageBinding>() {
     private var image: ImageItem? = null
 
     private val adapter by lazy {
-        PagingCommentsAdapter()
+        PagingCommentsAdapter {
+            onItemLongClick(it)
+        }
     }
 
     override fun setup() {
@@ -110,6 +113,33 @@ class DetailImageFragment : BaseFragment<FragmentDetailImageBinding>() {
                 adapter.submitData(it)
             }
         }
+    }
+
+    private fun onItemLongClick(item: CommentItem) {
+        lifecycleScope.launch {
+            viewModel.deleteComment.collectLatest {
+                if (it.message != null) {
+                    toast(it.message)
+                } else {
+                    lifecycleScope.launch {
+                        viewModel.getPhotosPagingData(image!!.id.toString())
+                            .collectLatest { pagingData ->
+                                adapter.submitData(pagingData)
+                            }
+                    }
+                    toast(resources.getString(R.string.comment_deleted))
+                }
+            }
+        }
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getString(R.string.delete_image_question))
+            .setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
+                viewModel.deleteComment(image!!.id!!, item.id.toInt())
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }.show()
     }
 
     override fun onStop() {

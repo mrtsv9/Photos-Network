@@ -45,8 +45,9 @@ object AppModule {
     fun provideImageRepository(
         api: ImageApi,
         imageDao: ImageDao,
+        userDao: UserDao,
         imagesRemoteMediator: ImagesRemoteMediator,
-    ): ImageRepository = ImageRepositoryImpl(api, imageDao, imagesRemoteMediator)
+    ): ImageRepository = ImageRepositoryImpl(api, imageDao, userDao, imagesRemoteMediator)
 
     @Provides
     fun provideMainRepository(api: MainImageApi, dao: UserDao): MainRepository =

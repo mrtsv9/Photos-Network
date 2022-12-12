@@ -33,6 +33,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun deleteUser() {
+        viewModelScope.launch {
+            dao.deleteUser()
+        }
+    }
+
     fun getUser() {
         viewModelScope.launch {
             _user.send(dao.getUser()?.toUserAuthItem())

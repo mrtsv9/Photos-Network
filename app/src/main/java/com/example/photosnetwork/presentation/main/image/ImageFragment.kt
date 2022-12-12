@@ -1,6 +1,7 @@
 package com.example.photosnetwork.presentation.main.image
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,7 +35,37 @@ class ImageFragment : BaseFragment<FragmentPhotosBinding>() {
         get() = FragmentPhotosBinding::inflate
 
     private val adapter by lazy {
-        PagingImagesAdapter { onItemClicked(it) }
+        PagingImagesAdapter({
+            onItemClicked(it)
+        }, { item, position ->
+            onItemLongClick(item, position)
+        })
+    }
+
+    private fun onItemLongClick(item: ImageItem, position: Int) {
+        lifecycleScope.launch {
+            viewModel.deleteImage.collectLatest {
+                if (it.message != null) {
+                    toast(it.message)
+                } else {
+                    lifecycleScope.launch {
+                        viewModel.getPhotosPagingData().collectLatest { pagingData ->
+                            adapter.submitData(pagingData)
+                        }
+                    }
+                    toast(resources.getString(R.string.photo_deleted))
+                }
+            }
+        }
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getString(R.string.delete_image_question))
+            .setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
+                viewModel.deletePhoto(item.id!!)
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }.show()
     }
 
     private fun onItemClicked(item: ImageItem) {
