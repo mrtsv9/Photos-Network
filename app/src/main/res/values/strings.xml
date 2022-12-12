@@ -34,4 +34,5 @@
     <string name="photo_detail_image">Photo detail image</string>
     <string name="enter_message">Enter message</string>
     <string name="comment_inserted">Comment successfuly added</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

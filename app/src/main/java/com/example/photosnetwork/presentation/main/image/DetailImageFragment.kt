@@ -25,9 +25,11 @@ import com.example.photosnetwork.presentation.main.MainActivity
 import com.example.photosnetwork.presentation.main.image.adapter.LoaderStateAdapter
 import com.example.photosnetwork.presentation.main.image.adapter.PagingCommentsAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -91,7 +93,9 @@ class DetailImageFragment : BaseFragment<FragmentDetailImageBinding>() {
                 if (it.message != null) {
                     toast(it.message)
                 } else {
-                    toast(resources.getString(R.string.comment_inserted))
+                    withContext(Dispatchers.Main) {
+                        toast(resources.getString(R.string.comment_inserted))
+                    }
                     lifecycleScope.launch {
                         viewModel.getPhotosPagingData(image?.id.toString())
                             .collectLatest { pagingData ->

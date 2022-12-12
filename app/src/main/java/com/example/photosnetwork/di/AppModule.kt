@@ -16,11 +16,13 @@ import com.example.photosnetwork.data.remote.repository.auth.RegisterRepositoryI
 import com.example.photosnetwork.data.remote.repository.comment.CommentRepositoryImpl
 import com.example.photosnetwork.data.remote.repository.image.ImageRepositoryImpl
 import com.example.photosnetwork.data.remote.repository.main.MainRepositoryImpl
+import com.example.photosnetwork.data.remote.repository.map.MapRepositoryImpl
 import com.example.photosnetwork.domain.repository.auth.LoginRepository
 import com.example.photosnetwork.domain.repository.auth.RegisterRepository
 import com.example.photosnetwork.domain.repository.comment.CommentRepository
 import com.example.photosnetwork.domain.repository.image.ImageRepository
 import com.example.photosnetwork.domain.repository.main.MainRepository
+import com.example.photosnetwork.domain.repository.map.MapRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -50,13 +52,7 @@ object AppModule {
     fun provideMainRepository(api: MainImageApi, dao: UserDao): MainRepository =
         MainRepositoryImpl(api, dao)
 
-//    @OptIn(ExperimentalPagingApi::class)
-//    @Provides
-//    fun provideCommentRepository(
-//        api: CommentApi,
-//        userDao: UserDao,
-//        commentDao: CommentDao,
-//        commentsRemoteMediator: CommentsRemoteMediator,
-//    ): CommentRepository =
-//        CommentRepositoryImpl(api, userDao, commentDao)
+    @Provides
+    fun provideMapRepository(api: ImageApi, userDao: UserDao): MapRepository =
+        MapRepositoryImpl(api, userDao)
 }

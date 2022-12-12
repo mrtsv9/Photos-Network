@@ -2,6 +2,7 @@ package com.example.photosnetwork.data.remote.dto.image
 
 import com.example.photosnetwork.data.local.entities.image.ImageEntity
 import com.example.photosnetwork.domain.model.image.ImageItem
+import com.example.photosnetwork.domain.model.map.MapMarkerItem
 import com.google.gson.annotations.SerializedName
 
 data class ImagesResponse(
@@ -42,4 +43,14 @@ fun ImagesResponse.toImageEntityList(): List<ImageEntity> {
 
 private fun ImagesResponse.ImageData.toImageEntity(): ImageEntity {
     return ImageEntity(id!!, url!!, date!!, lat!!, lng!!)
+}
+
+fun ImagesResponse.toMarkerList(): List<MapMarkerItem> {
+    return this.data?.map {
+        it!!.toMarkerItem()
+    } ?: emptyList()
+}
+
+private fun ImagesResponse.ImageData.toMarkerItem(): MapMarkerItem {
+    return MapMarkerItem(lat!!, lng!!)
 }
