@@ -4,14 +4,12 @@ import androidx.paging.*
 import com.example.photosnetwork.data.local.dao.auth.UserDao
 import com.example.photosnetwork.data.local.dao.comment.CommentDao
 import com.example.photosnetwork.data.local.entities.comment.toCommentItem
-import com.example.photosnetwork.data.local.entities.image.toImageItem
 import com.example.photosnetwork.data.remote.api.comment.CommentApi
 import com.example.photosnetwork.data.remote.data_source.CommentsRemoteMediator
 import com.example.photosnetwork.data.remote.dto.comment.toCommentItem
 import com.example.photosnetwork.domain.model.comment.PostCommentItem
 import com.example.photosnetwork.domain.model.comment.CommentItem
 import com.example.photosnetwork.domain.model.comment.toPostCommentDto
-import com.example.photosnetwork.domain.model.image.ImageItem
 import com.example.photosnetwork.domain.repository.comment.CommentRepository
 import com.example.photosnetwork.util.Constants
 import com.example.photosnetwork.util.Resource
