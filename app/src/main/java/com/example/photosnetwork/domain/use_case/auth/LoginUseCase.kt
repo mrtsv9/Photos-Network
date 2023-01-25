@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
     private val repository: LoginRepository,
-    private val dao: UserDao,
+    private val dao: UserDao
 ) {
 
     suspend operator fun invoke(userAuthInput: UserAuthInput): UserAuthItem? {

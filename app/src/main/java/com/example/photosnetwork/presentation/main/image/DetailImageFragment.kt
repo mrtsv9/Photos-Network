@@ -91,7 +91,7 @@ class DetailImageFragment : BaseFragment<FragmentDetailImageBinding>() {
                 inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
             }
         }
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.postComment.collectLatest {
                 if (it.message != null) {
                     toast(it.message)
@@ -108,7 +108,7 @@ class DetailImageFragment : BaseFragment<FragmentDetailImageBinding>() {
                 }
             }
         }
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.getPhotosPagingData(image?.id.toString()).collectLatest {
                 adapter.submitData(it)
             }
@@ -116,7 +116,7 @@ class DetailImageFragment : BaseFragment<FragmentDetailImageBinding>() {
     }
 
     private fun onItemLongClick(item: CommentItem) {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.deleteComment.collectLatest {
                 if (it.message != null) {
                     toast(it.message)

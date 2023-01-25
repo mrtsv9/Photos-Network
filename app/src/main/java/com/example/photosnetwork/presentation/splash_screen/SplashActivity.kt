@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
         _binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             val user = dao.getUser()
             if (user != null) Intent(applicationContext,
                 MainActivity::class.java).apply { startActivity(this) }

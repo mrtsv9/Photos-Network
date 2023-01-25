@@ -46,7 +46,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.markers.collectLatest {
                 it.forEach { mapMarker ->
                     val newMarker = MarkerOptions().position(LatLng(mapMarker.lat, mapMarker.lng))

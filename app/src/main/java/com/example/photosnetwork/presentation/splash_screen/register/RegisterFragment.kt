@@ -53,14 +53,13 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
             }
             registerUser()
         }
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.isErrorOccurred.collectLatest {
                 toast(resources.getString(R.string.register_error_response))
             }
         }
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.userAuthData.collectLatest {
-                Log.d(TAG, "initObservers: $it")
                 Intent(hostActivity!!, MainActivity::class.java).apply { startActivity(this) }
             }
         }

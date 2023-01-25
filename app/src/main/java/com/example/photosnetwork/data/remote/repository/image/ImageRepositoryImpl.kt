@@ -48,7 +48,6 @@ class ImageRepositoryImpl @Inject constructor(
     override suspend fun postImage(token: String, postImageDto: PostImageDto): PostImageResponse? {
         val response = api.postImage(token, postImageDto)
         if (response.isSuccessful) {
-            Log.d(TAG, "postImage: ${response.body()}")
             return response.body()
         }
         return null

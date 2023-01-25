@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         val headerView = binding.navView.getHeaderView(0)
         val userName: TextView = headerView.findViewById(R.id.header_username)
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.user.collectLatest { user ->
                 if (user == null) logoutUser()
                 withContext(Dispatchers.Main) {
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         }
         viewModel.getUser()
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.photoResponseMessage.collectLatest {
                 withContext(Dispatchers.Main) {
                     if (it.isFailure) {
@@ -220,7 +220,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logoutUser() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.deleteUser()
             Intent(applicationContext, SplashActivity::class.java).apply { startActivity(this) }
         }

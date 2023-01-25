@@ -37,14 +37,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         binding.btnLogin.setOnClickListener {
             logInUser()
         }
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.isErrorOccurred.collectLatest {
                 toast(resources.getString(R.string.login_error_response))
             }
         }
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.userAuthData.collectLatest {
-                Log.d(TAG, "initObservers: $it")
                 Intent(hostActivity, MainActivity::class.java).apply { startActivity(this) }
             }
         }

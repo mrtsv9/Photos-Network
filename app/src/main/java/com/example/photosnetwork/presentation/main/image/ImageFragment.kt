@@ -43,7 +43,7 @@ class ImageFragment : BaseFragment<FragmentPhotosBinding>() {
     }
 
     private fun onItemLongClick(item: ImageItem, position: Int) {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.deleteImage.collectLatest {
                 if (it.message != null) {
                     toast(it.message)
@@ -79,7 +79,7 @@ class ImageFragment : BaseFragment<FragmentPhotosBinding>() {
         binding.rvImages.adapter = adapter.withLoadStateFooter(LoaderStateAdapter())
         binding.rvImages.layoutManager = GridLayoutManager(requireContext(), 3)
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.getPhotosPagingData().collectLatest {
                 adapter.submitData(it)
             }
