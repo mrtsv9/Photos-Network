@@ -1,21 +1,20 @@
 package com.example.photosnetwork.presentation.main
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Base64
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -26,12 +25,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.photosnetwork.R
-import com.example.photosnetwork.data.local.dao.auth.UserDao
 import com.example.photosnetwork.databinding.ActivityMainBinding
 import com.example.photosnetwork.domain.model.image.PostImageItem
 import com.example.photosnetwork.presentation.splash_screen.SplashActivity
-import com.example.photosnetwork.util.Constants.CAMERA_REQUEST_CODE
-import com.example.photosnetwork.util.Constants.TAG
 import com.google.android.gms.location.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +36,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.util.*
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -54,6 +49,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val viewModel by viewModels<MainViewModel>()
+
+    private val takePhotoResult =
+        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+            if (bitmap != null) {
+                postImage(bitmap)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,13 +112,17 @@ class MainActivity : AppCompatActivity() {
             viewModel.photoResponseMessage.collectLatest {
                 withContext(Dispatchers.Main) {
                     if (it.isFailure) {
-                        Toast.makeText(applicationContext,
+                        Toast.makeText(
+                            applicationContext,
                             it.exceptionOrNull().toString(),
-                            Toast.LENGTH_SHORT).show()
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        Toast.makeText(applicationContext,
+                        Toast.makeText(
+                            applicationContext,
                             resources.getString(R.string.photo_added),
-                            Toast.LENGTH_SHORT).show()
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -134,8 +140,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun camera() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, CAMERA_REQUEST_CODE)
+        takePhotoResult.launch()
     }
 
     private fun showRotationalDialogForPermission() {
@@ -157,28 +162,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                CAMERA_REQUEST_CODE -> {
-                    val bitmap = data?.extras?.get("data") as Bitmap
-                    postImage(bitmap)
-                }
-            }
-        }
-    }
-
     private fun postImage(bitmap: Bitmap) {
         AlertDialog.Builder(this).setMessage(R.string.request_post_image)
             .setPositiveButton(R.string.yes) { _, _ ->
                 val encodedImage = encodeImage(bitmap)
                 val location = currentLocation
                 val postImageItem = encodedImage?.let {
-                    PostImageItem(it,
+                    PostImageItem(
+                        it,
                         Date().time / 1000,
                         location?.latitude ?: 40.0,
-                        location?.longitude ?: 40.0)
+                        location?.longitude ?: 40.0
+                    )
                 }
                 postImageItem?.let { viewModel.postImage(it) }
             }.setNegativeButton(resources.getString(R.string.close)) { dialog, _ ->
@@ -188,15 +183,22 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission") // It is actually not missing
     private fun getLocation() {
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        if (ActivityCompat.checkSelfPermission(
                 this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION),
-                100)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                100
+            )
             return
         }
         val location = fusedLocationClient.lastLocation
@@ -208,10 +210,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun encodeImage(bitmap: Bitmap): String? {
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
-        val bytes = baos.toByteArray()
-        return Base64.encodeToString(bytes, Base64.DEFAULT)
+        return try {
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+            val bytes = baos.toByteArray()
+            Base64.encodeToString(bytes, Base64.DEFAULT)
+        } catch (e: java.lang.RuntimeException) {
+            null
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -222,7 +228,7 @@ class MainActivity : AppCompatActivity() {
     private fun logoutUser() {
         lifecycleScope.launch {
             viewModel.deleteUser()
-            Intent(applicationContext, SplashActivity::class.java).apply { startActivity(this) }
+            Intent(this@MainActivity, SplashActivity::class.java).apply { startActivity(this) }
         }
     }
 

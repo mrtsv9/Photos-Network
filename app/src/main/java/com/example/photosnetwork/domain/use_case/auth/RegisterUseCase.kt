@@ -14,7 +14,7 @@ class RegisterUseCase @Inject constructor(
 
     suspend operator fun invoke(userAuthInput: UserAuthInput): UserAuthItem? {
         val userAuthData = repository.registerUser(userAuthInput) ?: return null
-        dao.insertUser(UserEntity(1, userAuthData.login, userAuthData.login))
+        dao.insertUser(UserEntity(1, userAuthData.login, userAuthData.token))
         return userAuthData
     }
 

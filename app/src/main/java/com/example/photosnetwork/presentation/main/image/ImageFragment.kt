@@ -3,13 +3,11 @@ package com.example.photosnetwork.presentation.main.image
 import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.photosnetwork.R
 import com.example.photosnetwork.databinding.FragmentPhotosBinding
@@ -17,7 +15,6 @@ import com.example.photosnetwork.domain.model.image.ImageItem
 import com.example.photosnetwork.presentation.base.BaseFragment
 import com.example.photosnetwork.presentation.main.image.adapter.LoaderStateAdapter
 import com.example.photosnetwork.presentation.main.image.adapter.PagingImagesAdapter
-import com.example.photosnetwork.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

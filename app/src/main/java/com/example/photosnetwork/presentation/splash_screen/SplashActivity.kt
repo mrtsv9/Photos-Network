@@ -33,8 +33,10 @@ class SplashActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val user = dao.getUser()
-            if (user != null) Intent(applicationContext,
-                MainActivity::class.java).apply { startActivity(this) }
+            if (user != null) Intent(
+                this@SplashActivity,
+                MainActivity::class.java
+            ).apply { startActivity(this) }
         }
 
         val adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)

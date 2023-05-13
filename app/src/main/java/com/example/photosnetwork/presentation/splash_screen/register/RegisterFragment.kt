@@ -2,7 +2,6 @@ package com.example.photosnetwork.presentation.splash_screen.register
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -13,7 +12,6 @@ import com.example.photosnetwork.databinding.FragmentRegisterBinding
 import com.example.photosnetwork.domain.model.auth.UserAuthInput
 import com.example.photosnetwork.presentation.base.BaseFragment
 import com.example.photosnetwork.presentation.main.MainActivity
-import com.example.photosnetwork.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -60,7 +58,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         }
         lifecycleScope.launch {
             viewModel.userAuthData.collectLatest {
-                Log.d(TAG, "initObservers: $it")
                 Intent(hostActivity!!, MainActivity::class.java).apply { startActivity(this) }
             }
         }
